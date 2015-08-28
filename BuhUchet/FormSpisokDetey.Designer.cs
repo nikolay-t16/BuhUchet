@@ -66,6 +66,7 @@
             this.razmer_golavy});
             this.dataGridViewDetiSearch.Location = new System.Drawing.Point(13, 65);
             this.dataGridViewDetiSearch.Name = "dataGridViewDetiSearch";
+            this.dataGridViewDetiSearch.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridViewDetiSearch.Size = new System.Drawing.Size(643, 144);
             this.dataGridViewDetiSearch.TabIndex = 0;
             this.dataGridViewDetiSearch.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewDetiSearch_CellContentClick);

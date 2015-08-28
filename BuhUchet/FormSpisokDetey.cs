@@ -77,9 +77,10 @@ namespace BuhUchet
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            Int32 selectedCellCount =
-                dataGridViewDetiSearch.GetCellCount(DataGridViewElementStates.Selected);
-            if (selectedCellCount > 0)
+            Int32 selectedRowCount =
+                dataGridViewDetiSearch.SelectedRows.Count;
+
+            if (selectedRowCount > 0)
             {
               var  resault = MessageBox.Show(
                     "Вы уверенны что хотите удалить выбранные строки?",
@@ -87,8 +88,44 @@ namespace BuhUchet
                     MessageBoxButtons.YesNo
                     );
               if (resault == DialogResult.Yes)
-              { 
+              {
+                  String delet_id_str = "";
+                  for (int i = 0; i < selectedRowCount; i++)
+            {
+                if (delet_id_str == "")
+                {
+                    delet_id_str += dataGridViewDetiSearch.SelectedRows[i].Cells[0].Value.ToString();
 
+                }
+                else {
+                    delet_id_str += ","+dataGridViewDetiSearch.SelectedRows[i].Cells[0].Value.ToString();
+                      
+                }                     
+              
+            }
+                  
+                
+                  using (OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=BuhUchet.mdb"))//это строка соединения с БД
+                  {
+
+                      OleDbCommand command = new OleDbCommand("delete FROM deti WHERE id in (" + delet_id_str + ")", conn);//Создаём SQL-запрос
+
+                      conn.Open();
+                      try
+                      {
+                          int i = command.ExecuteNonQuery();//Выполняем запрос, в данном случе на чтение
+                          MessageBox.Show(i.ToString());
+                      }
+                      catch (Exception)
+                      {
+
+                          textBoxSearch.Text = "Ошибка";
+                          //throw;
+                      }
+
+
+                  } buttonSearch.PerformClick();
+                          
               }
             }
             else {
