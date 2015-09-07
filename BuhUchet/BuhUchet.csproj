@@ -49,6 +49,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BuhUchetDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="ChidEditForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChidEditForm.Designer.cs">
+      <DependentUpon>ChidEditForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,8 +67,12 @@
     <Compile Include="FormSpisokDetey.Designer.cs">
       <DependentUpon>FormSpisokDetey.cs</DependentUpon>
     </Compile>
+    <Compile Include="ModelChildren.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="ChidEditForm.resx">
+      <DependentUpon>ChidEditForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

@@ -13,9 +13,12 @@ namespace BuhUchet
 {
     public partial class FormSpisokDetey : Form
     {
+        private ChildEditForm childEditForm;
+        private ModelChildren modelChildren;
         public FormSpisokDetey()
         {
             InitializeComponent();
+            modelChildren = new ModelChildren();
         }
 
         private void buttonSearch_Click(object sender, EventArgs e)
@@ -72,13 +75,26 @@ namespace BuhUchet
 
         private void dataGridViewDetiSearch_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+          
         }
-
+        private String GetIdSetFromSelectedRows() {
+          String set = "";
+          for (int i = 0; i < dataGridViewDetiSearch.SelectedRows.Count; i++)
+          {
+            if (set == "")
+            {
+              set += dataGridViewDetiSearch.SelectedRows[i].Cells[0].Value.ToString();
+            }
+            else
+            {
+              set += "," + dataGridViewDetiSearch.SelectedRows[i].Cells[0].Value.ToString();
+            }
+          }        
+          return set;
+        }
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            Int32 selectedRowCount =
-                dataGridViewDetiSearch.SelectedRows.Count;
+            Int32 selectedRowCount = dataGridViewDetiSearch.SelectedRows.Count;
 
             if (selectedRowCount > 0)
             {
@@ -89,48 +105,22 @@ namespace BuhUchet
                     );
               if (resault == DialogResult.Yes)
               {
-                  String delet_id_str = "";
-                  for (int i = 0; i < selectedRowCount; i++)
-            {
-                if (delet_id_str == "")
-                {
-                    delet_id_str += dataGridViewDetiSearch.SelectedRows[i].Cells[0].Value.ToString();
-
-                }
-                else {
-                    delet_id_str += ","+dataGridViewDetiSearch.SelectedRows[i].Cells[0].Value.ToString();
-                      
-                }                     
-              
-            }
+                  String delet_id_str = GetIdSetFromSelectedRows();
                   
-                
-                  using (OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=BuhUchet.mdb"))//это строка соединения с БД
-                  {
-
-                      OleDbCommand command = new OleDbCommand("delete FROM deti WHERE id in (" + delet_id_str + ")", conn);//Создаём SQL-запрос
-
-                      conn.Open();
-                      try
-                      {
-                          int i = command.ExecuteNonQuery();//Выполняем запрос, в данном случе на чтение
-                          MessageBox.Show(i.ToString());
-                      }
-                      catch (Exception)
-                      {
-
-                          textBoxSearch.Text = "Ошибка";
-                          //throw;
-                      }
-
-
-                  } buttonSearch.PerformClick();
-                          
+                  modelChildren.DeleteByIdSet(delet_id_str);
+                  buttonSearch.PerformClick();      
               }
             }
             else {
                 MessageBox.Show("Выберите хотя бы одну строку");
             }
+            
+        }
+
+        private void buttonAdd_Click(object sender, EventArgs e)
+        {
+          childEditForm = new ChildEditForm();
+          childEditForm.Show();
         }
         
     }
