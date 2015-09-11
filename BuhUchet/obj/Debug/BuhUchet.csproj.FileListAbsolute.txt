@@ -9,3 +9,4 @@ C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.exe
 C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.pdb
 C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.FormSpisokDetey.resources
 C:\ann_proj\BuhUchet\BuhUchet\bin\Debug\BuhUchet.mdb
+C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.ChildEditForm.resources
