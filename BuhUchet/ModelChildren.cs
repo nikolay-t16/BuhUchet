@@ -49,6 +49,40 @@ namespace BuhUchet
           
         return false;
       }
+    public Boolean Update(String id, String data_otkritiya_karty, String fio, String razmer_odegdy, String razmer_obuvy, String razmer_golavy)
+    {
+      String set = "";
+      set += " data_otkritiya_karty = '" + data_otkritiya_karty + "',";
+      set += " fio = '" + fio + "',";
+      set += " razmer_odegdy = '" + razmer_odegdy + "',";
+      set += " razmer_obuvy = '" + razmer_obuvy + "',";
+      set += " razmer_golavy = '" + razmer_golavy + "'";
+       
+      OleDbCommand command = new OleDbCommand();//Создаём SQL-запрос
+      //try
+      //{
+        command.CommandType = CommandType.Text;
+        command.CommandText = "UPDATE deti set "+ set+" where id = "+id;
+        command.Connection = conn;
+        
+      
+        int i = command.ExecuteNonQuery();//Выполняем запрос, в данном случе на чтение
+        if (i > 0)
+        {
+          return true;
+        }
+        else
+        {
+          return false;
+        }
+      //}
+      //catch (Exception)
+      //{
+      //  return false;
+      //  throw;
+      //}
+      
+    }
 
     public void DeleteWhere(String where) {
       OleDbCommand command = new OleDbCommand();//Создаём SQL-запрос
@@ -69,8 +103,48 @@ namespace BuhUchet
      
     }
 
-    public void DeleteByIdSet(String id_set) {
+    public void DeleteByIdSet(String id_set) 
+    {
       DeleteWhere("id in ( " + id_set + " )");
+    }
+
+    public OleDbDataReader GetById(String id)
+    {
+      OleDbCommand command = new OleDbCommand();//Создаём SQL-запрос
+      command.CommandType = CommandType.Text;
+      command.CommandText = "SELECT * FROM deti WHERE id = " + id;
+      command.Connection = conn;
+
+      try
+      {
+        OleDbDataReader reader = command.ExecuteReader();//Выполняем запрос, в данном случе на чтение
+        return reader;
+      }
+      catch (Exception)
+      {
+        throw;
+      }
+      return null;
+    }
+
+    public OleDbDataReader Search(String search)
+    {
+      OleDbCommand command = new OleDbCommand();//Создаём SQL-запрос
+      command.CommandType = CommandType.Text;
+      command.CommandText = "SELECT * FROM deti WHERE fio like '%" + search + "%' or id like '%" + search + "%'";
+      command.Connection = conn;
+      
+      try
+      {
+        OleDbDataReader reader = command.ExecuteReader();//Выполняем запрос, в данном случе на чтение
+        return reader;
+      }
+      catch (Exception)
+      {
+        throw;
+      }
+
+
     }
   }
   

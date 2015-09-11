@@ -24,38 +24,25 @@ namespace BuhUchet
         private void buttonSearch_Click(object sender, EventArgs e)
         {
             dataGridViewDetiSearch.Rows.Clear();
-
-            using (OleDbConnection conn = new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=BuhUchet.mdb"))//это строка соединения с БД
+            OleDbDataReader reader = modelChildren.Search(textBoxSearch.Text);
+            int i = 0;
+            if (reader != null)
             {
-                OleDbCommand command = new OleDbCommand("SELECT * FROM deti WHERE fio like '%" + textBoxSearch.Text + "%'", conn);//Создаём SQL-запрос
-               
-                conn.Open();
-                try
-                {
-                    OleDbDataReader reader = command.ExecuteReader();//Выполняем запрос, в данном случе на чтение
-                    int i = 0;
-                    while (reader.Read())//а здесь собственно записи полей
-                    {
-                        i++;
-                         int rowNumber = dataGridViewDetiSearch.Rows.Add();
-                         dataGridViewDetiSearch.Rows[rowNumber].Cells["id"].Value = reader["id"].ToString();
-                         dataGridViewDetiSearch.Rows[rowNumber].Cells["data_otkritiya_karty"].Value = reader["data_otkritiya_karty"].ToString();
-                         dataGridViewDetiSearch.Rows[rowNumber].Cells["fio"].Value = reader["fio"].ToString();
-                         dataGridViewDetiSearch.Rows[rowNumber].Cells["razmer_odegdy"].Value = reader["razmer_odegdy"].ToString();
-                         dataGridViewDetiSearch.Rows[rowNumber].Cells["razmer_obuvy"].Value = reader["razmer_obuvy"].ToString();
-                         dataGridViewDetiSearch.Rows[rowNumber].Cells["razmer_golavy"].Value = reader["razmer_golavy"].ToString();
-                    }
-                    //textBoxSearch.Text = i.ToString();
-                }
-                catch (Exception)
-                {
+              while (reader.Read())//а здесь собственно записи полей
+              {
+                i++;
+                int rowNumber = dataGridViewDetiSearch.Rows.Add();
+                dataGridViewDetiSearch.Rows[rowNumber].Cells["id"].Value = reader["id"].ToString();
+                dataGridViewDetiSearch.Rows[rowNumber].Cells["data_otkritiya_karty"].Value = reader["data_otkritiya_karty"].ToString();
+                dataGridViewDetiSearch.Rows[rowNumber].Cells["fio"].Value = reader["fio"].ToString();
+                dataGridViewDetiSearch.Rows[rowNumber].Cells["razmer_odegdy"].Value = reader["razmer_odegdy"].ToString();
+                dataGridViewDetiSearch.Rows[rowNumber].Cells["razmer_obuvy"].Value = reader["razmer_obuvy"].ToString();
+                dataGridViewDetiSearch.Rows[rowNumber].Cells["razmer_golavy"].Value = reader["razmer_golavy"].ToString();
+              }
 
-                    textBoxSearch.Text = "Ошибка";
-                    //throw;
-                }
+            }   
                 
-                
-            }
+            
         }
 
         private void detiBindingNavigatorSaveItem_Click(object sender, EventArgs e)
@@ -121,6 +108,30 @@ namespace BuhUchet
         {
           childEditForm = new ChildEditForm();
           childEditForm.Show();
+        }
+
+        private void buttonEdit_Click(object sender, EventArgs e)
+        {
+          if (dataGridViewDetiSearch.SelectedRows.Count == 1) 
+          {
+            childEditForm = new ChildEditForm();
+            Int32 id = 0;
+            Int32.TryParse(dataGridViewDetiSearch.SelectedRows[0].Cells[0].Value.ToString(), out id);
+            childEditForm.setId(id);
+            childEditForm.SetDefaultFieldValues();
+            childEditForm.Show();
+          }
+          else 
+          {
+            if (dataGridViewDetiSearch.SelectedRows.Count > 1) 
+            {
+              MessageBox.Show("Выберите только одну запись");
+            }
+            else
+            {
+              MessageBox.Show("Выберите одну запись");
+            }
+          }
         }
         
     }

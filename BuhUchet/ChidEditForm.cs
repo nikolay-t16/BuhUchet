@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,42 @@ namespace BuhUchet
       InitializeComponent();
       modelChildren = new ModelChildren();    
     }
+
+    public void setId( Int32 id) {
+      childId = id;
+      textBoxId.ReadOnly = true;
+      
+    }
+
+    public void SetDefaultFieldValues() {
+      OleDbDataReader item = modelChildren.GetById(childId.ToString());
+      if (item != null)
+      {
+        item.Read();
+        System.Console.WriteLine(item["data_otkritiya_karty"].ToString());
+        DateTime date = DateTime.ParseExact(item["data_otkritiya_karty"].ToString(), "dd'.'MM'.'yyyy h:mm:ss", CultureInfo.InvariantCulture);
+        textBoxId.Text = item["id"].ToString();
+        textBoxId.ReadOnly = true;
+        textBoxFio.Text = item["fio"].ToString();
+        textBoxClothesSize.Text = item["razmer_odegdy"].ToString();
+        textBoxShoesSize.Text = item["razmer_obuvy"].ToString();
+        textBoxHeadSize.Text = item["razmer_golavy"].ToString();
+        dateTimePickerCreateDate.Value = date;
+       
+      }
+      else 
+      {
+        MessageBox.Show("Произошла ошибка, обратитесь к админестратоору");
+        childId = 0;
+        textBoxId.Text = "";
+        textBoxId.ReadOnly = false;
+        textBoxFio.Text = "";
+        textBoxClothesSize.Text = "";
+        textBoxShoesSize.Text = "";
+        textBoxHeadSize.Text = "";
+      }
+    }
+    private Int32 childId = 0;
     
     
     private void ChildEditForm_Load(object sender, EventArgs e)
@@ -53,25 +90,46 @@ namespace BuhUchet
     {
       if (ValidateFormFields())
       {
-        Int32 id = 0;
-        Int32.TryParse(textBoxId.Text,out id);
-        Boolean t = modelChildren.Insert(
-                           id,
-                           dateTimePickerCreateDate.Value.Date.ToString(),
-                           textBoxFio.Text,
-                           textBoxClothesSize.Text,
-                           textBoxShoesSize.Text,
-                            textBoxHeadSize.Text
-                           );
-        if (t)
+        if (childId == 0)
         {
-          MessageBox.Show("Запись успешно добавленна");
+          Int32 id = 0;
+          Int32.TryParse(textBoxId.Text, out id);
+          Boolean t = modelChildren.Insert(
+                             id,
+                             dateTimePickerCreateDate.Value.Date.ToString(),
+                             textBoxFio.Text,
+                             textBoxClothesSize.Text,
+                             textBoxShoesSize.Text,
+                              textBoxHeadSize.Text
+                             );
+          if (t)
+          {
+            MessageBox.Show("Запись успешно добавленна");
+          }
+          else
+          {
+            MessageBox.Show("Запись не добавленна, обратитесь к админестратору");
+          }
         }
         else 
         {
-          MessageBox.Show("Запись не добавленна, обратитесь к админестратору");
-        }   
-               
+          Boolean t = modelChildren.Update(
+                             textBoxId.Text,
+                             dateTimePickerCreateDate.Value.Date.ToString(),
+                             textBoxFio.Text,
+                             textBoxClothesSize.Text,
+                             textBoxShoesSize.Text,
+                              textBoxHeadSize.Text
+                             );
+          if (t)
+          {
+            MessageBox.Show("Запись успешно добавленна");
+          }
+          else
+          {
+            MessageBox.Show("Запись не добавленна, обратитесь к админестратору");
+          }
+        }
       }
     }
   }
