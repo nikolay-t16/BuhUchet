@@ -61,6 +61,24 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormClothesEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormClothesEdit.Designer.cs">
+      <DependentUpon>FormClothesEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormClothesList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormClothesList.Designer.cs">
+      <DependentUpon>FormClothesList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPrihodnayaNaklodnayaSpisok.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPrihodnayaNaklodnayaSpisok.Designer.cs">
+      <DependentUpon>FormPrihodnayaNaklodnayaSpisok.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormSpisokDetey.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -68,6 +86,7 @@
       <DependentUpon>FormSpisokDetey.cs</DependentUpon>
     </Compile>
     <Compile Include="ModelChildren.cs" />
+    <Compile Include="ModelClothes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ChidEditForm.resx">
@@ -75,6 +94,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormClothesEdit.resx">
+      <DependentUpon>FormClothesEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormClothesList.resx">
+      <DependentUpon>FormClothesList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSpisokDetey.resx">
       <DependentUpon>FormSpisokDetey.cs</DependentUpon>

@@ -23,5 +23,18 @@ namespace BuhUchet
             f.Show();
             //this.Hide();
         }
+
+        private void tipyOdegdiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+          FormClothesList f = new FormClothesList();
+          //FormClosed f = new FormSpisokDetey();
+          f.Show();
+        }
+
+        private void prihodnayaNaklodnayaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+          FormPrihodnayaNaklodnayaSpisok f = new FormPrihodnayaNaklodnayaSpisok();
+          f.Show();
+        }
     }
 }
