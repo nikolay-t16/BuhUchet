@@ -12,3 +12,6 @@ C:\ann_proj\BuhUchet\BuhUchet\bin\Debug\BuhUchet.mdb
 C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.ChildEditForm.resources
 C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.FormClothesList.resources
 C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.FormClothesEdit.resources
+C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.FormPrihodnayaNaklodnayaSpisok.resources
+C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.FormPrihodnayaNakadnayaEdit.resources
+C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.FormPrihodnayaNaklodnaya.resources

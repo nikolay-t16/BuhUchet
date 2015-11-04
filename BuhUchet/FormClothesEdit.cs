@@ -90,7 +90,7 @@ namespace BuhUchet
       {
         if (itemId == 0)
         {
-          Boolean t = modelClothes.Insert(itemId, textBoxName.Text, rubsList[comboBoxParent.SelectedIndex, 0]);
+          Boolean t = modelClothes.Insert(textBoxName.Text, rubsList[comboBoxParent.SelectedIndex, 0]);
           
           if (t)
           {
@@ -103,7 +103,7 @@ namespace BuhUchet
         }
         else
         {
-          Boolean t = modelClothes.Update(itemId, textBoxName.Text, rubsList[comboBoxParent.SelectedIndex, 0]);
+          Boolean t = modelClothes.Update(itemId.ToString(), textBoxName.Text, rubsList[comboBoxParent.SelectedIndex, 0]);
           if (t)
           {
             MessageBox.Show("Запись успешно добавленна");

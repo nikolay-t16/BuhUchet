@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.OleDb;
 using System.Data;
+using System.Data.OleDb;
 namespace BuhUchet
 {
-  class ModelClothes
+  class ModelChildren
   {
     protected static OleDbConnection conn;
-    const String TABLE_NAME = "clothes";
-    public ModelClothes()
-    {
+      public ModelChildren() {
         conn = new OleDbConnection(@"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=BuhUchet.mdb");//это строка соединения с БД
         conn.Open();   
       }
-    public Boolean Insert(Int16 id, String name, String parent)
-    {
-      String set = "name, p_id";
-      String val = "@name, @p_id";
+    public Boolean Insert(Int32 id, String data_otkritiya_karty, String fio, String razmer_odegdy, String razmer_obuvy, String razmer_golavy) {
+      String set = "data_otkritiya_karty, fio, razmer_odegdy,razmer_obuvy,razmer_golavy";
+      String val = "@data_otkritiya_karty, @fio, @razmer_odegdy,@razmer_obuvy,@razmer_golavy";
       if (id > 0) {
         set = "id, "+set;
         val = "@id, "+val;
@@ -28,14 +25,17 @@ namespace BuhUchet
         try
           {
             command.CommandType = CommandType.Text;
-            command.CommandText = "INSERT into "+TABLE_NAME+" ("+set+") VALUES ("+val+")";
+            command.CommandText = "INSERT into deti ("+set+") VALUES ("+val+")";
             command.Connection = conn;
             if (id > 0) 
             {
               command.Parameters.AddWithValue("@id", id);
             }
-            command.Parameters.AddWithValue("@name", name);
-            command.Parameters.AddWithValue("@p_id", parent);
+            command.Parameters.AddWithValue("@data_otkritiya_karty", data_otkritiya_karty);
+            command.Parameters.AddWithValue("@fio", fio);
+            command.Parameters.AddWithValue("@razmer_odegdy", razmer_odegdy);
+            command.Parameters.AddWithValue("@razmer_obuvy", razmer_obuvy);
+            command.Parameters.AddWithValue("@razmer_golavy", razmer_golavy);
             int i = command.ExecuteNonQuery();//Выполняем запрос, в данном случе на чтение
             if (i > 0) 
             {
@@ -49,18 +49,20 @@ namespace BuhUchet
           
         return false;
       }
-    public Boolean Update(Int16 id, String name, String p_id)
+    public Boolean Update(String id, String data_otkritiya_karty, String fio, String razmer_odegdy, String razmer_obuvy, String razmer_golavy)
     {
       String set = "";
-      set += " name = '" + name + "',";
-      set += " p_id = '" + p_id.ToString() + "'";
-      
+      set += " data_otkritiya_karty = '" + data_otkritiya_karty + "',";
+      set += " fio = '" + fio + "',";
+      set += " razmer_odegdy = '" + razmer_odegdy + "',";
+      set += " razmer_obuvy = '" + razmer_obuvy + "',";
+      set += " razmer_golavy = '" + razmer_golavy + "'";
        
       OleDbCommand command = new OleDbCommand();//Создаём SQL-запрос
       //try
       //{
         command.CommandType = CommandType.Text;
-        command.CommandText = "UPDATE " + TABLE_NAME + " set " + set + " where id = " + id.ToString();
+        command.CommandText = "UPDATE deti set "+ set+" where id = "+id;
         command.Connection = conn;
         
       
@@ -87,7 +89,7 @@ namespace BuhUchet
       try
       {
         command.CommandType = CommandType.Text;
-        command.CommandText = "delete FROM " + TABLE_NAME + " WHERE " + where + ";";
+        command.CommandText = "delete FROM deti WHERE "+ where+";";
         command.Connection = conn;
         
         int i = command.ExecuteNonQuery();//Выполняем запрос, в данном случе на чтение
@@ -108,18 +110,9 @@ namespace BuhUchet
 
     public OleDbDataReader GetById(String id)
     {
-      return GetItems("id = " + id);      
-    }
-
-    public OleDbDataReader Search(String search,String p_id)
-    {
-      return GetItems("name like '%" + search + "%' and p_id="+p_id+" order by name ASC");     
-      
-    }
-    public OleDbDataReader GetItems(String where) {
       OleDbCommand command = new OleDbCommand();//Создаём SQL-запрос
       command.CommandType = CommandType.Text;
-      command.CommandText = "SELECT * FROM " + TABLE_NAME + " WHERE " + where;
+      command.CommandText = "SELECT * FROM deti WHERE id = " + id;
       command.Connection = conn;
 
       try
@@ -131,44 +124,31 @@ namespace BuhUchet
       {
         throw;
       }
+      return null;
     }
 
-    public int GetCount(String where)
+    public OleDbDataReader Search(String search)
     {
       OleDbCommand command = new OleDbCommand();//Создаём SQL-запрос
       command.CommandType = CommandType.Text;
-      command.CommandText = "SELECT count(*) as RowCount FROM " + TABLE_NAME + " WHERE " + where;
+      command.CommandText = "SELECT * FROM deti WHERE fio like '%" + search + "%' or id like '%" + search + "%'";
       command.Connection = conn;
-
+      
       try
       {
         OleDbDataReader reader = command.ExecuteReader();//Выполняем запрос, в данном случе на чтение
-        reader.Read();
-        int rowCount = (int)reader["RowCount"];
-        return rowCount;
+        return reader;
       }
       catch (Exception)
       {
         throw;
       }
-    }
 
-    public String[,] GetRubs()
-    {
-      String where = "p_id = 0";
-      int count = GetCount(where);
-      OleDbDataReader reader = GetItems(where +" order by name ASC");
-      String[,] rubs = new String[count+1, 2];
-      rubs[0, 0] = "0";
-      rubs[0, 1] = "Пусто";
-      int i = 1;
-      while (reader.Read()) {
-        rubs[i, 0] = reader["id"].ToString();
-        rubs[i, 1] = reader["name"].ToString();
-        Console.Write(reader["name"].ToString());
-        i++;
-      }
-      return rubs;
+
     }
+    
   }
+ 
+  
+
 }
