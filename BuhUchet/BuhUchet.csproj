@@ -73,6 +73,18 @@
     <Compile Include="FormClothesList.Designer.cs">
       <DependentUpon>FormClothesList.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormPrihodnayaNakadnayaEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPrihodnayaNakadnayaEdit.Designer.cs">
+      <DependentUpon>FormPrihodnayaNakadnayaEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormPrihodnayaNaklodnaya.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPrihodnayaNaklodnaya.Designer.cs">
+      <DependentUpon>FormPrihodnayaNaklodnaya.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormPrihodnayaNaklodnayaSpisok.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,8 +97,11 @@
     <Compile Include="FormSpisokDetey.Designer.cs">
       <DependentUpon>FormSpisokDetey.cs</DependentUpon>
     </Compile>
-    <Compile Include="ModelChildren.cs" />
-    <Compile Include="ModelClothes.cs" />
+    <Compile Include="Model\ModelChildren.cs" />
+    <Compile Include="Model\ModelClothes.cs" />
+    <Compile Include="Model\Model.cs" />
+    <Compile Include="Model\ModelPrihodnayaNakladnayaIt.cs" />
+    <Compile Include="Model\ModelPrihodnayaNaklodnaya.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ChidEditForm.resx">
@@ -100,6 +115,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormClothesList.resx">
       <DependentUpon>FormClothesList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPrihodnayaNakadnayaEdit.resx">
+      <DependentUpon>FormPrihodnayaNakadnayaEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPrihodnayaNaklodnaya.resx">
+      <DependentUpon>FormPrihodnayaNaklodnaya.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormPrihodnayaNaklodnayaSpisok.resx">
+      <DependentUpon>FormPrihodnayaNaklodnayaSpisok.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSpisokDetey.resx">
       <DependentUpon>FormSpisokDetey.cs</DependentUpon>
