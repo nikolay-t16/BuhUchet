@@ -32,8 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DocumentFormat.OpenXml, Version=2.0.5022.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.IO.Log" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,6 +46,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuhUchetDataSet.Designer.cs">
@@ -49,10 +54,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BuhUchetDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="ChidEditForm.cs">
+    <Compile Include="Module\Child\Form\ChidEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ChidEditForm.Designer.cs">
+    <Compile Include="Module\Child\Form\ChidEditForm.Designer.cs">
       <DependentUpon>ChidEditForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Form1.cs">
@@ -61,71 +66,110 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormClothesEdit.cs">
+    <Compile Include="Module\Clothes\Form\FormClothesEdit.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormClothesEdit.Designer.cs">
+    <Compile Include="Module\Clothes\Form\FormClothesEdit.Designer.cs">
       <DependentUpon>FormClothesEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormClothesList.cs">
+    <Compile Include="Module\Clothes\Form\FormClothesList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormClothesList.Designer.cs">
+    <Compile Include="Module\Clothes\Form\FormClothesList.Designer.cs">
       <DependentUpon>FormClothesList.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormPrihodnayaNakadnayaEdit.cs">
+    <Compile Include="Module\Child\Data\ChildItem.cs" />
+    <Compile Include="Module\Naklodnaya\Data\NaklodnayaClothesItem.cs" />
+    <Compile Include="Module\Naklodnaya\Data\NaklodnayaItem.cs" />
+    <Compile Include="Module\Order\Form\FormOrder.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormPrihodnayaNakadnayaEdit.Designer.cs">
+    <Compile Include="Module\Order\Form\FormOrder.Designer.cs">
+      <DependentUpon>FormOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Module\Order\Form\FormOrderItem.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module\Order\Form\FormOrderItem.Designer.cs">
+      <DependentUpon>FormOrderItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Module\Order\Form\FormOrderItemEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module\Order\Form\FormOrderItemEdit.Designer.cs">
+      <DependentUpon>FormOrderItemEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Module\Naklodnaya\Form\FormPrihodnayaNakadnayaEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Module\Naklodnaya\Form\FormPrihodnayaNakadnayaEdit.Designer.cs">
       <DependentUpon>FormPrihodnayaNakadnayaEdit.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormPrihodnayaNaklodnaya.cs">
+    <Compile Include="Module\Naklodnaya\Form\FormPrihodnayaNaklodnaya.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormPrihodnayaNaklodnaya.Designer.cs">
+    <Compile Include="Module\Naklodnaya\Form\FormPrihodnayaNaklodnaya.Designer.cs">
       <DependentUpon>FormPrihodnayaNaklodnaya.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormPrihodnayaNaklodnayaSpisok.cs">
+    <Compile Include="Module\Naklodnaya\Form\FormPrihodnayaNaklodnayaSpisok.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormPrihodnayaNaklodnayaSpisok.Designer.cs">
+    <Compile Include="Module\Naklodnaya\Form\FormPrihodnayaNaklodnayaSpisok.Designer.cs">
       <DependentUpon>FormPrihodnayaNaklodnayaSpisok.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormSpisokDetey.cs">
+    <Compile Include="Module\Child\Form\FormSpisokDetey.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormSpisokDetey.Designer.cs">
+    <Compile Include="Module\Child\Form\FormSpisokDetey.Designer.cs">
       <DependentUpon>FormSpisokDetey.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\ModelChildren.cs" />
-    <Compile Include="Model\ModelClothes.cs" />
+    <Compile Include="Module\Child\Model\ModelChildren.cs" />
+    <Compile Include="Module\Clothes\Model\ModelClothes.cs" />
     <Compile Include="Model\Model.cs" />
-    <Compile Include="Model\ModelPrihodnayaNakladnayaIt.cs" />
-    <Compile Include="Model\ModelPrihodnayaNaklodnaya.cs" />
+    <Compile Include="Module\Clothes\Data\ClothesItem.cs" />
+    <Compile Include="Module\Clothes\Data\ClothesTreeItem.cs" />
+    <Compile Include="Module\Order\Data\OrderClothesItem.cs" />
+    <Compile Include="Module\Order\Data\OrderItem.cs" />
+    <Compile Include="Module\Order\Data\OrderItemsItem.cs" />
+    <Compile Include="Module\Order\Model\ModelOrder.cs" />
+    <Compile Include="Module\Order\Model\ModelOrderItems.cs" />
+    <Compile Include="Module\Naklodnaya\Model\ModelPrihodnayaNakladnayaIt.cs" />
+    <Compile Include="Module\Naklodnaya\Model\ModelPrihodnayaNaklodnaya.cs" />
+    <Compile Include="Module\Otchet\ArmCardReport.cs" />
+    <Compile Include="Module\Otchet\MakeExcelReport.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ChidEditForm.resx">
+    <EmbeddedResource Include="Module\Child\Form\ChidEditForm.resx">
       <DependentUpon>ChidEditForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormClothesEdit.resx">
+    <EmbeddedResource Include="Module\Clothes\Form\FormClothesEdit.resx">
       <DependentUpon>FormClothesEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormClothesList.resx">
+    <EmbeddedResource Include="Module\Clothes\Form\FormClothesList.resx">
       <DependentUpon>FormClothesList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormPrihodnayaNakadnayaEdit.resx">
+    <EmbeddedResource Include="Module\Order\Form\FormOrder.resx">
+      <DependentUpon>FormOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Module\Order\Form\FormOrderItem.resx">
+      <DependentUpon>FormOrderItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Module\Order\Form\FormOrderItemEdit.resx">
+      <DependentUpon>FormOrderItemEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Module\Naklodnaya\Form\FormPrihodnayaNakadnayaEdit.resx">
       <DependentUpon>FormPrihodnayaNakadnayaEdit.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormPrihodnayaNaklodnaya.resx">
+    <EmbeddedResource Include="Module\Naklodnaya\Form\FormPrihodnayaNaklodnaya.resx">
       <DependentUpon>FormPrihodnayaNaklodnaya.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormPrihodnayaNaklodnayaSpisok.resx">
+    <EmbeddedResource Include="Module\Naklodnaya\Form\FormPrihodnayaNaklodnayaSpisok.resx">
       <DependentUpon>FormPrihodnayaNaklodnayaSpisok.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormSpisokDetey.resx">
+    <EmbeddedResource Include="Module\Child\Form\FormSpisokDetey.resx">
       <DependentUpon>FormSpisokDetey.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -172,6 +216,33 @@
     <Content Include="BuhUchet.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controller\" />
+    <Folder Include="Model\ModelItem\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="otkloadr">
+      <Guid>{C04E4E5E-89E6-43C0-92BD-D3F2C7FBA5C4}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VSTOEE100">
+      <Guid>{AAB9C2AA-6036-4AE1-A41C-A40AB7F39520}</Guid>
+      <VersionMajor>10</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

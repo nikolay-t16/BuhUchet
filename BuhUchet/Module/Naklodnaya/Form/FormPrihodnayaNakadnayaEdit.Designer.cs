@@ -68,7 +68,7 @@
       // 
       // textCount
       // 
-      this.textCount.Location = new System.Drawing.Point(114, 77);
+      this.textCount.Location = new System.Drawing.Point(114, 85);
       this.textCount.Name = "textCount";
       this.textCount.Size = new System.Drawing.Size(169, 20);
       this.textCount.TabIndex = 4;
@@ -76,7 +76,7 @@
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Location = new System.Drawing.Point(39, 77);
+      this.label2.Location = new System.Drawing.Point(39, 85);
       this.label2.Name = "label2";
       this.label2.Size = new System.Drawing.Size(69, 13);
       this.label2.TabIndex = 3;
@@ -101,7 +101,7 @@
       // label4
       // 
       this.label4.AutoSize = true;
-      this.label4.Location = new System.Drawing.Point(45, 143);
+      this.label4.Location = new System.Drawing.Point(45, 151);
       this.label4.Name = "label4";
       this.label4.Size = new System.Drawing.Size(63, 13);
       this.label4.TabIndex = 7;
@@ -113,7 +113,7 @@
       this.comboBoxParent.Items.AddRange(new object[] {
             "Пусто",
             "12"});
-      this.comboBoxParent.Location = new System.Drawing.Point(111, 143);
+      this.comboBoxParent.Location = new System.Drawing.Point(111, 151);
       this.comboBoxParent.Name = "comboBoxParent";
       this.comboBoxParent.Size = new System.Drawing.Size(172, 21);
       this.comboBoxParent.TabIndex = 8;
@@ -125,7 +125,7 @@
       this.comboBoxClothes.Items.AddRange(new object[] {
             "Пусто",
             "12"});
-      this.comboBoxClothes.Location = new System.Drawing.Point(111, 175);
+      this.comboBoxClothes.Location = new System.Drawing.Point(111, 183);
       this.comboBoxClothes.Name = "comboBoxClothes";
       this.comboBoxClothes.Size = new System.Drawing.Size(172, 21);
       this.comboBoxClothes.TabIndex = 9;
@@ -148,6 +148,7 @@
       this.Controls.Add(this.buttonSave);
       this.Name = "FormPrihodnayaNakadnayaEdit";
       this.Text = "FormPrihodnayaNakadnayaEdit";
+      this.Load += new System.EventHandler(this.FormPrihodnayaNakadnayaEdit_Load);
       this.ResumeLayout(false);
       this.PerformLayout();
 

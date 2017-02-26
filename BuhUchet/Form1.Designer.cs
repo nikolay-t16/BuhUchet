@@ -61,27 +61,28 @@
       // prihodnayaNaklodnayaToolStripMenuItem
       // 
       this.prihodnayaNaklodnayaToolStripMenuItem.Name = "prihodnayaNaklodnayaToolStripMenuItem";
-      this.prihodnayaNaklodnayaToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-      this.prihodnayaNaklodnayaToolStripMenuItem.Text = "Приходная наклодная";
+      this.prihodnayaNaklodnayaToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+      this.prihodnayaNaklodnayaToolStripMenuItem.Text = "Товарные накладные";
       this.prihodnayaNaklodnayaToolStripMenuItem.Click += new System.EventHandler(this.prihodnayaNaklodnayaToolStripMenuItem_Click);
       // 
       // vedomostToolStripMenuItem
       // 
       this.vedomostToolStripMenuItem.Name = "vedomostToolStripMenuItem";
-      this.vedomostToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
-      this.vedomostToolStripMenuItem.Text = "Ведомость";
+      this.vedomostToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
+      this.vedomostToolStripMenuItem.Text = "Арматурные карты";
+      this.vedomostToolStripMenuItem.Click += new System.EventHandler(this.vedomostToolStripMenuItem_Click);
       // 
       // tipyOdegdiToolStripMenuItem
       // 
       this.tipyOdegdiToolStripMenuItem.Name = "tipyOdegdiToolStripMenuItem";
-      this.tipyOdegdiToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+      this.tipyOdegdiToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
       this.tipyOdegdiToolStripMenuItem.Text = "Типы одежды";
       this.tipyOdegdiToolStripMenuItem.Click += new System.EventHandler(this.tipyOdegdiToolStripMenuItem_Click);
       // 
       // spiskyDeteyToolStripMenuItem
       // 
       this.spiskyDeteyToolStripMenuItem.Name = "spiskyDeteyToolStripMenuItem";
-      this.spiskyDeteyToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
+      this.spiskyDeteyToolStripMenuItem.Size = new System.Drawing.Size(192, 22);
       this.spiskyDeteyToolStripMenuItem.Text = "Списки детей";
       this.spiskyDeteyToolStripMenuItem.Click += new System.EventHandler(this.spiskyDeteyToolStripMenuItem_Click);
       // 
@@ -94,6 +95,7 @@
       this.MainMenuStrip = this.menuStrip1;
       this.Name = "Form1";
       this.Text = "Form1";
+      this.Load += new System.EventHandler(this.Form1_Load);
       this.menuStrip1.ResumeLayout(false);
       this.menuStrip1.PerformLayout();
       this.ResumeLayout(false);

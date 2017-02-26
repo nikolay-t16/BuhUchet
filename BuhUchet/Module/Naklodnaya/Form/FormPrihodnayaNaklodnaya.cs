@@ -28,52 +28,24 @@ namespace BuhUchet
     public void LoadValues() {
 
       dataGridViewList.Rows.Clear();
-      OleDbDataReader item = ModelPrihodnayaNaklodnaya.I().GetById(itemId.ToString());
-      OleDbDataReader it = ModelPrihodnayaNaklodnaya.I().GetById(itemId.ToString());
+      var item = ModelPrihodnayaNaklodnaya.I().GetItem(itemId);
       if (item != null)
       {
-        item = ModelPrihodnayaNaklodnaya.I().GetById(itemId.ToString());
-      
-        item.Read();
-        textBoxNomer.Text = item["nomer"].ToString();
-        DateTime date = DateTime.ParseExact(item["date_add"].ToString(), "dd'.'MM'.'yyyy h:mm:ss", CultureInfo.InvariantCulture);
+
+        textBoxNomer.Text = item.Nomer;
+        DateTime date = DateTime.ParseExact(item.DateAdd, "dd'.'MM'.'yyyy h:mm:ss", CultureInfo.InvariantCulture);
         dateTimePickerCreateDate.Value = date;
-        OleDbDataReader items = ModelPrihodnayaNakladnayaIt.I().GetItems("id_naklad="+this.itemId.ToString());
+        var items = ModelPrihodnayaNakladnayaIt.I().GetItems(this.itemId.ToString());
         if (items != null) 
         {
-          String[,] rubs_list = ModelClothes.I().GetRubs();
-          String[,] sub_rubs_list = ModelClothes.I().GetSubRubs();
-          int rowNumber;
-          while (items.Read()) 
-          {
-            string group_name = "";
-            if (items["id_clothes"].ToString() != "0") 
-            {
-              for (int i = 0; i < sub_rubs_list.Length; i++)
-              {
-                if (sub_rubs_list[i, 0] == items["id_clothes"].ToString()) 
-                {
-                  Console.WriteLine(sub_rubs_list[i, 0]);
-                  group_name = "/"+sub_rubs_list[i, 2];
-                  for (int j = 0; j < rubs_list.Length; j++)
-                  {
-                    if (sub_rubs_list[i, 1] == rubs_list[j, 0]) {
-                      group_name = rubs_list[j, 1] + group_name;
-                      break;
-                    }
-                  }
-                  break;
-                }
-              }
-            }
-            rowNumber = dataGridViewList.Rows.Add();
-            dataGridViewList.Rows[rowNumber].Cells["id"].Value = items["id"].ToString();
-            dataGridViewList.Rows[rowNumber].Cells["id_clothes"].Value = items["id_clothes"].ToString();
-            dataGridViewList.Rows[rowNumber].Cells["group_name"].Value = group_name;
-            
-            dataGridViewList.Rows[rowNumber].Cells["name"].Value = items["name"].ToString();
-            dataGridViewList.Rows[rowNumber].Cells["count"].Value = items["count"].ToString();
-            dataGridViewList.Rows[rowNumber].Cells["price"].Value = items["price"].ToString();            
+          foreach (var it in items.Values) { 
+            var rowNumber = dataGridViewList.Rows.Add();
+            dataGridViewList.Rows[rowNumber].Cells["id"].Value = it.Id;
+            dataGridViewList.Rows[rowNumber].Cells["id_clothes"].Value = it.IdClothes;
+            dataGridViewList.Rows[rowNumber].Cells["group_name"].Value = it.GroupName;
+            dataGridViewList.Rows[rowNumber].Cells["name"].Value = it.Name;
+            dataGridViewList.Rows[rowNumber].Cells["count"].Value = it.Count;
+            dataGridViewList.Rows[rowNumber].Cells["price"].Value = it.Price;            
           }
         }
         //ModelPrihodnayaNaklodnayaIt.I().GetById(item_id.ToString());
@@ -81,6 +53,8 @@ namespace BuhUchet
     }
     private void button1_Click(object sender, EventArgs e)
     {
+      if (textBoxNomer.Text!="")
+      {
       if (itemId == 0) 
       {
         if (ModelPrihodnayaNaklodnaya.I().Insert(textBoxNomer.Text, dateTimePickerCreateDate.Value.Date.ToString()))
@@ -105,12 +79,25 @@ namespace BuhUchet
         }
       }
       formPrihodnayaNaklodnayaSpisok.LoadItems();
+      }
+      else 
+      {
+        MessageBox.Show("Укажите номер");
+      }
     }
 
     private void buttonAdd_Click(object sender, EventArgs e)
     {
-      FormPrihodnayaNakadnayaEdit f = new FormPrihodnayaNakadnayaEdit(0,itemId, this);
-      f.Show();
+      if (itemId > 0)
+      {
+        FormPrihodnayaNakadnayaEdit f = new FormPrihodnayaNakadnayaEdit(0, itemId, this);
+        f.Show();
+      }
+      else
+      {
+        MessageBox.Show("Нужно создать накладную");
+      }
+
     }
 
     private void FormPrihodnayaNaklodnaya_Load(object sender, EventArgs e)

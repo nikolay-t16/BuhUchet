@@ -14,35 +14,30 @@ namespace BuhUchet
     public partial class FormSpisokDetey : Form
     {
         private ChildEditForm childEditForm;
-        private ModelChildren modelChildren;
         public FormSpisokDetey()
         {
             InitializeComponent();
-            modelChildren = new ModelChildren();
         }
 
         private void buttonSearch_Click(object sender, EventArgs e)
         {
-            dataGridViewDetiSearch.Rows.Clear();
-            OleDbDataReader reader = modelChildren.Search(textBoxSearch.Text);
-            int i = 0;
-            if (reader != null)
-            {
-              while (reader.Read())//а здесь собственно записи полей
-              {
-                i++;
-                int rowNumber = dataGridViewDetiSearch.Rows.Add();
-                dataGridViewDetiSearch.Rows[rowNumber].Cells["id"].Value = reader["id"].ToString();
-                dataGridViewDetiSearch.Rows[rowNumber].Cells["data_otkritiya_karty"].Value = reader["data_otkritiya_karty"].ToString();
-                dataGridViewDetiSearch.Rows[rowNumber].Cells["fio"].Value = reader["fio"].ToString();
-                dataGridViewDetiSearch.Rows[rowNumber].Cells["razmer_odegdy"].Value = reader["razmer_odegdy"].ToString();
-                dataGridViewDetiSearch.Rows[rowNumber].Cells["razmer_obuvy"].Value = reader["razmer_obuvy"].ToString();
-                dataGridViewDetiSearch.Rows[rowNumber].Cells["razmer_golavy"].Value = reader["razmer_golavy"].ToString();
-              }
-
-            }   
-                
-            
+          Search();
+        }
+        public void Search() {
+          dataGridViewDetiSearch.Rows.Clear();
+          var items = ModelChildren.I().Search(textBoxSearch.Text);
+          int i = 0;
+          foreach (var it in items)//а здесь собственно записи полей
+          {
+            i++;
+            int rowNumber = dataGridViewDetiSearch.Rows.Add();
+            dataGridViewDetiSearch.Rows[rowNumber].Cells["id"].Value = it.Id;
+            dataGridViewDetiSearch.Rows[rowNumber].Cells["data_otkritiya_karty"].Value = it.DataOtkritiyaKarty;
+            dataGridViewDetiSearch.Rows[rowNumber].Cells["fio"].Value = it.Fio;
+            dataGridViewDetiSearch.Rows[rowNumber].Cells["razmer_odegdy"].Value = it.RazmerOdegdy;
+            dataGridViewDetiSearch.Rows[rowNumber].Cells["razmer_obuvy"].Value = it.RazmerObuvy;
+            dataGridViewDetiSearch.Rows[rowNumber].Cells["razmer_golavy"].Value = it.RazmerGolavy;
+          }
         }
 
         private void detiBindingNavigatorSaveItem_Click(object sender, EventArgs e)
@@ -55,8 +50,7 @@ namespace BuhUchet
 
         private void FormSpisokDetey_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'buhUchetDataSet.deti' table. You can move, or remove it, as needed.
-            this.detiTableAdapter.Fill(this.buhUchetDataSet.deti);
+          Search();
 
         }
 
@@ -94,8 +88,8 @@ namespace BuhUchet
               {
                   String delet_id_str = GetIdSetFromSelectedRows();
                   
-                  modelChildren.DeleteByIdSet(delet_id_str);
-                  buttonSearch.PerformClick();      
+                  ModelChildren.I().DeleteByIdSet(delet_id_str);
+                  Search();      
               }
             }
             else {
@@ -106,18 +100,19 @@ namespace BuhUchet
 
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-          childEditForm = new ChildEditForm();
+          childEditForm = new ChildEditForm(this);
           childEditForm.Show();
         }
 
+        public Action OnChildrenListChange;
         private void buttonEdit_Click(object sender, EventArgs e)
         {
           if (dataGridViewDetiSearch.SelectedRows.Count == 1) 
           {
-            childEditForm = new ChildEditForm();
+            childEditForm = new ChildEditForm(this);
             Int32 id = 0;
             Int32.TryParse(dataGridViewDetiSearch.SelectedRows[0].Cells[0].Value.ToString(), out id);
-            childEditForm.setId(id);
+            childEditForm.SetId(id);
             childEditForm.SetDefaultFieldValues();
             childEditForm.Show();
           }

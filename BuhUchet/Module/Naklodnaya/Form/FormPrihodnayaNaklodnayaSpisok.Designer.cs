@@ -35,6 +35,7 @@
       this.buttonAdd = new System.Windows.Forms.Button();
       this.buttonOpen = new System.Windows.Forms.Button();
       this.buttonDelete = new System.Windows.Forms.Button();
+      this.CreateExcel = new System.Windows.Forms.Button();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewList)).BeginInit();
       this.SuspendLayout();
       // 
@@ -100,12 +101,24 @@
       this.buttonDelete.TabIndex = 3;
       this.buttonDelete.Text = "Удалить";
       this.buttonDelete.UseVisualStyleBackColor = true;
+      this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
+      // 
+      // CreateExcel
+      // 
+      this.CreateExcel.Location = new System.Drawing.Point(299, 51);
+      this.CreateExcel.Name = "CreateExcel";
+      this.CreateExcel.Size = new System.Drawing.Size(91, 23);
+      this.CreateExcel.TabIndex = 4;
+      this.CreateExcel.Text = "Создать файл";
+      this.CreateExcel.UseVisualStyleBackColor = true;
+      this.CreateExcel.Click += new System.EventHandler(this.CreateExcel_Click);
       // 
       // FormPrihodnayaNaklodnayaSpisok
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(610, 295);
+      this.Controls.Add(this.CreateExcel);
       this.Controls.Add(this.buttonDelete);
       this.Controls.Add(this.buttonOpen);
       this.Controls.Add(this.buttonAdd);
@@ -127,5 +140,6 @@
     private System.Windows.Forms.DataGridViewTextBoxColumn id;
     private System.Windows.Forms.DataGridViewTextBoxColumn nomer;
     private System.Windows.Forms.DataGridViewTextBoxColumn date;
+    private System.Windows.Forms.Button CreateExcel;
   }
 }

@@ -15,13 +15,16 @@ namespace BuhUchet
   public partial class ChildEditForm : Form
   {
     private static ModelChildren modelChildren;
-    public ChildEditForm()
+    private FormSpisokDetey formSpisokDetey;
+    public ChildEditForm(FormSpisokDetey form)
     {
+
       InitializeComponent();
-      modelChildren = new ModelChildren();    
+      formSpisokDetey = form;
+      modelChildren = ModelChildren.I();    
     }
 
-    public void setId( Int32 id) {
+    public void SetId( Int32 id) {
       childId = id;
       textBoxId.ReadOnly = true;
       
@@ -32,7 +35,6 @@ namespace BuhUchet
       if (item != null)
       {
         item.Read();
-        System.Console.WriteLine(item["data_otkritiya_karty"].ToString());
         DateTime date = DateTime.ParseExact(item["data_otkritiya_karty"].ToString(), "dd'.'MM'.'yyyy h:mm:ss", CultureInfo.InvariantCulture);
         textBoxId.Text = item["id"].ToString();
         textBoxId.ReadOnly = true;
@@ -104,7 +106,9 @@ namespace BuhUchet
                              );
           if (t)
           {
+            //OnChildChange.Method.tr
             MessageBox.Show("Запись успешно добавленна");
+            formSpisokDetey.Search();
           }
           else
           {
@@ -123,12 +127,14 @@ namespace BuhUchet
                              );
           if (t)
           {
-            MessageBox.Show("Запись успешно добавленна");
+            MessageBox.Show("Запись успешно обновлена");
+            formSpisokDetey.Search();
           }
           else
           {
             MessageBox.Show("Запись не добавленна, обратитесь к админестратору");
           }
+          
         }
       }
     }

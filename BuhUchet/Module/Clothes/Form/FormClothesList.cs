@@ -14,55 +14,51 @@ namespace BuhUchet
   public partial class FormClothesList : Form
   {
     private FormClothesEdit formClothesEdit;
-    private ModelClothes modelClothes;
-    private String[,] rubsList;
+    private List<ClothesTreeItem> rubList = new List<ClothesTreeItem>();
     public FormClothesList()
     {
       InitializeComponent();
-      modelClothes = new ModelClothes();
       SetRubs();
     }
     public void SetRubs() {
       comboBoxParent.Items.Clear();
-      rubsList = modelClothes.GetRubs();
-      for (int i = 0; i < rubsList.Length/2; i++) {
-        if (rubsList[i, 1] != "") {
-          comboBoxParent.Items.Add(rubsList[i, 1]);
-        }
+      rubList.Clear();
+      rubList.Add(new ClothesTreeItem() { Id = "0",Name = "Пусто"});
+      comboBoxParent.Items.Add("Пусто");
+      foreach (var rubsList in ModelClothes.I().ClothesTree["0"]) {
+        comboBoxParent.Items.Add(rubsList.Value.Name);
+        rubList.Add(rubsList.Value);
       }
       comboBoxParent.SelectedIndex = 0;
-        
-      /*
-      if (reader != null)
-      {
-        while (reader.Read())//а здесь собственно записи полей
-        {
-          MessageBox.Show(reader["name"].ToString());
-          comboBoxParent.Items.Add(reader["name"].ToString());         
-        }
-      }*/
     }
 
     private void buttonAdd_Click(object sender, EventArgs e)
     {
-      formClothesEdit = new FormClothesEdit();
+      formClothesEdit = new FormClothesEdit(this,0);
       formClothesEdit.Show();
     }
+    public void Search() {
+      dataGridViewClothesSearch.Rows.Clear();
+      if (rubList.Count < comboBoxParent.SelectedIndex) {
+        Console.WriteLine("Неправильный индекс рубрики");
+        return;
+      }
 
+      var clothesList = ModelClothes.I().Search(textBoxSearch.Text, rubList[comboBoxParent.SelectedIndex].Id.ToString());
+      if (clothesList.Count==0)
+        return;
+      for (var i = 0; i < clothesList.Count; i++) {
+        dataGridViewClothesSearch.Rows.Add();
+        dataGridViewClothesSearch.Rows[i].Cells["id"].Value = clothesList[i].Id;
+        dataGridViewClothesSearch.Rows[i].Cells["parent"].Value = clothesList[i].ParentName;
+        dataGridViewClothesSearch.Rows[i].Cells["name"].Value = clothesList[i].Name;
+      }        
+      
+    }
     private void buttonSearch_Click(object sender, EventArgs e)
     {
-      dataGridViewClothesSearch.Rows.Clear();
-      OleDbDataReader reader = modelClothes.Search(textBoxSearch.Text, rubsList[comboBoxParent.SelectedIndex, 0]);
-      if (reader != null)
-      {
-        while (reader.Read())//а здесь собственно записи полей
-        {
-          int rowNumber = dataGridViewClothesSearch.Rows.Add();
-          dataGridViewClothesSearch.Rows[rowNumber].Cells["id"].Value = reader["id"].ToString();
-          dataGridViewClothesSearch.Rows[rowNumber].Cells["parent"].Value = reader["p_id"].ToString();
-          dataGridViewClothesSearch.Rows[rowNumber].Cells["name"].Value = reader["name"].ToString();
-        }
-      }
+      Search();
+ 
     }
 
     private void buttonDelete_Click(object sender, EventArgs e)
@@ -80,7 +76,7 @@ namespace BuhUchet
         {
           String delet_id_str = GetIdSetFromSelectedRows();
 
-          modelClothes.DeleteByIdSet(delet_id_str);
+          ModelClothes.I().DeleteByIdSet(delet_id_str);
           buttonSearch.PerformClick();
         }
       }
@@ -111,10 +107,10 @@ namespace BuhUchet
     {
       if (dataGridViewClothesSearch.SelectedRows.Count == 1)
       {
-        formClothesEdit = new FormClothesEdit();
+        
         Int16 id = 0;
         Int16.TryParse(dataGridViewClothesSearch.SelectedRows[0].Cells[0].Value.ToString(), out id);
-        formClothesEdit.setId(id);
+        formClothesEdit = new FormClothesEdit(this, id);
         formClothesEdit.SetDefaultFieldValues();
         formClothesEdit.Show();
       }
@@ -129,6 +125,16 @@ namespace BuhUchet
           MessageBox.Show("Выберите одну запись");
         }
       }
+    }
+
+    private void FormClothesList_Load(object sender, EventArgs e)
+    {
+      Search();
+    }
+
+    private void dataGridViewClothesSearch_CellContentClick(object sender, DataGridViewCellEventArgs e)
+    {
+
     }
         
   }

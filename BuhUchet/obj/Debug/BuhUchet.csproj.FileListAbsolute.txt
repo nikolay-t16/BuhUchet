@@ -15,3 +15,9 @@ C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.FormClothesEdit.resources
 C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.FormPrihodnayaNaklodnayaSpisok.resources
 C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.FormPrihodnayaNakadnayaEdit.resources
 C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.FormPrihodnayaNaklodnaya.resources
+C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.FormOrder.resources
+C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.FormOrderItem.resources
+C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.FormOrderItemEdit.resources
+C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\Interop.otkloadr.dll
+C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\Interop.VSTOEE100.dll
+C:\ann_proj\BuhUchet\BuhUchet\obj\Debug\BuhUchet.csproj.ResolveComReference.cache

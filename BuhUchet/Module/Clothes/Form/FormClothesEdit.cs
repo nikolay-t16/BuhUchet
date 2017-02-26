@@ -13,42 +13,54 @@ namespace BuhUchet
 {
   public partial class FormClothesEdit : Form
   {
-    private static ModelClothes modelClothes;
-    private Int16 itemId = 0;
-    private String[,] rubsList;
-    public FormClothesEdit()
+    private FormClothesList fParent;
+    private int itemId = 0;
+    private ClothesItem clothesItem;
+    private List<ClothesTreeItem> rubList = new List<ClothesTreeItem>();
+    public FormClothesEdit(FormClothesList f, int id)
     {
+      Console.WriteLine("FormClothesEdit "+ id);
+      fParent = f;
+      itemId = id;
       InitializeComponent();
-      modelClothes = new ModelClothes();
-      SetRubs();
+      
     }
     public void SetRubs()
     {
+
       comboBoxParent.Items.Clear();
-      rubsList = modelClothes.GetRubs();
-      for (int i = 0; i < rubsList.Length / 2; i++)
+      rubList.Clear();
+      rubList.Add(new ClothesTreeItem() { Id = "0", Name = "Пусто" });
+      comboBoxParent.Items.Add("Пусто");
+      foreach (var rubsList in ModelClothes.I().ClothesTree["0"])
       {
-        if (rubsList[i, 1] != "")
+        comboBoxParent.Items.Add(rubsList.Value.Name);
+        rubList.Add(rubsList.Value);
+        if (clothesItem!=null && clothesItem.PId == rubsList.Value.Id)
         {
-          comboBoxParent.Items.Add(rubsList[i, 1]);
+          comboBoxParent.SelectedIndex = comboBoxParent.Items.Count - 1;
         }
       }
-      comboBoxParent.SelectedIndex = 0;
+      if (comboBoxParent.SelectedIndex < 0) {
+        comboBoxParent.SelectedIndex = 0;
+      }
+      
     }
-    public void setId(Int16 id)
-    {
-      itemId = id;
-
-    }
-
+    
     public void SetDefaultFieldValues()
     {
-      OleDbDataReader item = modelClothes.GetById(itemId.ToString());
-      if (item != null)
+      textBoxName.Text = "";
+      textBoxEdIzm.Text = "";
+      textBoxSrok.Text = "";
+      if (itemId == 0)
+        return;
+      clothesItem = ModelClothes.I().GetItem(itemId);
+      if (clothesItem != null)
       {
-        item.Read();
-        textBoxName.Text = item["name"].ToString();   
-
+        Console.WriteLine(itemId);
+        textBoxName.Text = clothesItem.Name;
+        textBoxEdIzm.Text = clothesItem.EdIzm;
+        textBoxSrok.Text = clothesItem.SrokNoski;
       }
       else
       {
@@ -56,6 +68,7 @@ namespace BuhUchet
         itemId = 0;
         textBoxName.Text = "";        
       }
+      SetRubs();
     }
     private Boolean ValidTextBox(TextBox textBox, string fieldName)
     {
@@ -90,7 +103,13 @@ namespace BuhUchet
       {
         if (itemId == 0)
         {
-          Boolean t = modelClothes.Insert(textBoxName.Text, rubsList[comboBoxParent.SelectedIndex, 0]);
+          var rubId = comboBoxParent.SelectedIndex>0?rubList[comboBoxParent.SelectedIndex].Id:"0";
+          Boolean t = ModelClothes.I().Insert(
+            textBoxName.Text,
+            rubId,
+            textBoxEdIzm.Text,
+            textBoxSrok.Text
+            );
           
           if (t)
           {
@@ -103,7 +122,13 @@ namespace BuhUchet
         }
         else
         {
-          Boolean t = modelClothes.Update(itemId.ToString(), textBoxName.Text, rubsList[comboBoxParent.SelectedIndex, 0]);
+          Boolean t = ModelClothes.I().Update(
+            itemId.ToString(), 
+            textBoxName.Text,
+            rubList[comboBoxParent.SelectedIndex].Id,
+            textBoxEdIzm.Text,
+            textBoxSrok.Text
+            );
           if (t)
           {
             MessageBox.Show("Запись успешно добавленна");
@@ -113,7 +138,13 @@ namespace BuhUchet
             MessageBox.Show("Запись не добавленна, обратитесь к админестратору");
           }
         }
+        fParent.Search();
       }
+    }
+
+    private void FormClothesEdit_Load(object sender, EventArgs e)
+    {
+      SetDefaultFieldValues();
     }
   }
 }

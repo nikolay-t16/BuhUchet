@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.OleDb;
+using System.Text.RegularExpressions;
+
 namespace BuhUchet
 {
   class Model
@@ -36,8 +38,7 @@ namespace BuhUchet
           }
           command.CommandType = CommandType.Text;
           command.CommandText = "INSERT into `" + tableName + "` (" + set + ") VALUES (" + val + ")";
-          Console.WriteLine("INSERT into `" + tableName + "` (" + set + ") VALUES (" + val + ");");
-          
+          Console.WriteLine("sql:" + command.CommandText);
           command.Connection = conn;
           for (int i = 0; i < param.Length / 2; i++)
           {
@@ -58,6 +59,7 @@ namespace BuhUchet
       }
       public Boolean Update(String[,] param, String where)
       {
+        var comand_text = "";
         try
         {
           String set = "";
@@ -69,7 +71,7 @@ namespace BuhUchet
             }
             set = set + "`" + param[i, 0] + "`='" + param[i, 1] + "'";
           }
-          String comand_text = "UPDATE " + tableName + " set " + set;
+          comand_text = "UPDATE `" + tableName + "` set " + set;
           if (where != "")
           {
             comand_text = comand_text + " where " + where;
@@ -77,7 +79,7 @@ namespace BuhUchet
           OleDbCommand command = new OleDbCommand();//Создаём SQL-запрос
           command.CommandType = CommandType.Text;
           command.CommandText = comand_text;
-          Console.WriteLine(comand_text);
+          Console.WriteLine("sql:" + comand_text);
           command.Connection = conn;
           int res = command.ExecuteNonQuery();//Выполняем запрос, в данном случе на чтение
           if (res > 0)
@@ -88,13 +90,13 @@ namespace BuhUchet
           {
             return false;
           }
-          }
-          catch (Exception)
-          {
-            
-            throw;
-          }
-          return false;
+        }
+        catch (Exception)
+        {
+          Console.WriteLine(comand_text);
+          throw;
+        }
+         return false;
         
       }
       public void DeleteWhere(String where)
@@ -103,7 +105,8 @@ namespace BuhUchet
         try
         {
           command.CommandType = CommandType.Text;
-          command.CommandText = "delete FROM "+ tableName +" WHERE " + where + ";";
+          command.CommandText = "delete FROM `"+ tableName +"` WHERE " + where + ";";
+          Console.WriteLine("sql:" + command.CommandText);
           command.Connection = conn;
 
           int i = command.ExecuteNonQuery();//Выполняем запрос, в данном случе на чтение
@@ -116,15 +119,20 @@ namespace BuhUchet
 
 
       }
+      public void DeleteById(String id)
+      {
+        DeleteWhere("`id` in ( " + id + " )");
+      }
       public void DeleteByIdSet(String id_set)
       {
-        DeleteWhere("id in ( " + id_set + " )");
+        DeleteWhere("`id` in ( " + id_set + " )");
       }  
       public OleDbDataReader GetById(String id)
       {
         OleDbCommand command = new OleDbCommand();//Создаём SQL-запрос
         command.CommandType = CommandType.Text;
-        command.CommandText = "SELECT * FROM " + tableName + " WHERE id = " + id;
+        command.CommandText = "SELECT * FROM `" + tableName + "` WHERE `id` = " + id;
+        Console.WriteLine("sql:" + command.CommandText);
         command.Connection = conn;
 
         try
@@ -140,24 +148,27 @@ namespace BuhUchet
       }
       public OleDbDataReader GetItems(String where)
       {
-        OleDbCommand command = new OleDbCommand();//Создаём SQL-запрос
         String sql_text = "SELECT * FROM `" + tableName + "`";
         if (where != "") 
         {
           sql_text += "where " + where;
         }
+        return QueryResult(sql_text);        
+      }
+      public OleDbDataReader QueryResult(String sql) {
+        OleDbCommand command = new OleDbCommand();//Создаём SQL-запрос
         command.CommandType = CommandType.Text;
-        command.CommandText = sql_text;
+        command.CommandText = sql;
+        Console.WriteLine("sql:" + command.CommandText);
         command.Connection = conn;
-
         try
         {
           OleDbDataReader reader = command.ExecuteReader();//Выполняем запрос, в данном случе на чтение
           return reader;
         }
-        catch (Exception)
+        catch (Exception e)
         {
-          throw;
+          Console.WriteLine(e.Message);
         }
         return null;
       }
@@ -167,6 +178,7 @@ namespace BuhUchet
         OleDbCommand command = new OleDbCommand();//Создаём SQL-запрос
         command.CommandType = CommandType.Text;
         command.CommandText = "Select @@Identity";
+        Console.WriteLine("sql:" + command.CommandText);
         command.Connection = conn;
         try
         {
@@ -179,24 +191,40 @@ namespace BuhUchet
         return id;
 
       }
+      public int GetCount()
+      {
+        return GetCount(null);
+      }
       public int GetCount(String where)
       {
         OleDbCommand command = new OleDbCommand();//Создаём SQL-запрос
         command.CommandType = CommandType.Text;
-        command.CommandText = "SELECT count(*) as RowCount FROM " + tableName + " WHERE " + where;
+        string sql = "SELECT count(*) as RowCount FROM " + tableName;
+        if (where != null) {
+          sql += " WHERE " + where;
+        }
+        command.CommandText = sql;
+        Console.WriteLine("sql:" + command.CommandText);
         command.Connection = conn;
-
-        try
+        
+        //try
         {
           OleDbDataReader reader = command.ExecuteReader();//Выполняем запрос, в данном случе на чтение
           reader.Read();
           int rowCount = (int)reader["RowCount"];
           return rowCount;
         }
-        catch (Exception)
-        {
-          throw;
-        }
+       // catch (Exception)
+       // {
+        //  throw;
+        //}
+      }
+      public static string CheckIntVal(string val) {
+        Regex regexObj = new Regex(@"[^\d]");
+        var rez = regexObj.Replace(val, "");
+        rez = rez == "" ? "0" : rez;
+        Console.WriteLine("from " + val + " to " + rez);
+        return rez;
       }
 
   }

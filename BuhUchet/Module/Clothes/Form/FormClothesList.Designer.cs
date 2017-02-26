@@ -34,10 +34,10 @@
       this.textBoxSearch = new System.Windows.Forms.TextBox();
       this.buttonSearch = new System.Windows.Forms.Button();
       this.dataGridViewClothesSearch = new System.Windows.Forms.DataGridView();
+      this.comboBoxParent = new System.Windows.Forms.ComboBox();
       this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.parent = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.comboBoxParent = new System.Windows.Forms.ComboBox();
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewClothesSearch)).BeginInit();
       this.SuspendLayout();
       // 
@@ -102,23 +102,7 @@
       this.dataGridViewClothesSearch.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
       this.dataGridViewClothesSearch.Size = new System.Drawing.Size(643, 144);
       this.dataGridViewClothesSearch.TabIndex = 6;
-      // 
-      // id
-      // 
-      this.id.HeaderText = "№ а/к";
-      this.id.Name = "id";
-      this.id.ReadOnly = true;
-      // 
-      // parent
-      // 
-      this.parent.HeaderText = "Рубрика";
-      this.parent.Name = "parent";
-      // 
-      // name
-      // 
-      this.name.HeaderText = "Название";
-      this.name.Name = "name";
-      this.name.ReadOnly = true;
+      this.dataGridViewClothesSearch.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewClothesSearch_CellContentClick);
       // 
       // comboBoxParent
       // 
@@ -127,6 +111,30 @@
       this.comboBoxParent.Name = "comboBoxParent";
       this.comboBoxParent.Size = new System.Drawing.Size(167, 21);
       this.comboBoxParent.TabIndex = 12;
+      // 
+      // id
+      // 
+      this.id.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+      this.id.HeaderText = "№";
+      this.id.Name = "id";
+      this.id.ReadOnly = true;
+      this.id.Width = 43;
+      // 
+      // parent
+      // 
+      this.parent.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+      this.parent.HeaderText = "Рубрика";
+      this.parent.Name = "parent";
+      this.parent.ReadOnly = true;
+      this.parent.Width = 74;
+      // 
+      // name
+      // 
+      this.name.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+      this.name.HeaderText = "Название";
+      this.name.Name = "name";
+      this.name.ReadOnly = true;
+      this.name.Width = 82;
       // 
       // FormClothesList
       // 
@@ -142,6 +150,7 @@
       this.Controls.Add(this.dataGridViewClothesSearch);
       this.Name = "FormClothesList";
       this.Text = "FormClothesList";
+      this.Load += new System.EventHandler(this.FormClothesList_Load);
       ((System.ComponentModel.ISupportInitialize)(this.dataGridViewClothesSearch)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
@@ -156,9 +165,9 @@
     private System.Windows.Forms.TextBox textBoxSearch;
     private System.Windows.Forms.Button buttonSearch;
     private System.Windows.Forms.DataGridView dataGridViewClothesSearch;
+    private System.Windows.Forms.ComboBox comboBoxParent;
     private System.Windows.Forms.DataGridViewTextBoxColumn id;
     private System.Windows.Forms.DataGridViewTextBoxColumn parent;
     private System.Windows.Forms.DataGridViewTextBoxColumn name;
-    private System.Windows.Forms.ComboBox comboBoxParent;
   }
 }

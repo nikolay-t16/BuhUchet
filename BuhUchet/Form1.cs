@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using DocumentFormat.OpenXml;
 namespace BuhUchet
 {
     public partial class Form1 : Form
@@ -35,6 +35,17 @@ namespace BuhUchet
         {
           FormPrihodnayaNaklodnayaSpisok f = new FormPrihodnayaNaklodnayaSpisok();
           f.Show();
+        }
+
+        private void vedomostToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+          FormOrder f = new FormOrder();
+          f.Show();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
