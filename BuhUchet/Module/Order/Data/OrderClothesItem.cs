@@ -12,5 +12,6 @@ namespace BuhUchet
     public string Name;
     public string Price;
     public string Count;
+    public ClothesItem Clothes;
   }
 }

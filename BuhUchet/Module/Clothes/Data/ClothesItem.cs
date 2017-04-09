@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace BuhUchet
 {
-  class ClothesItem
+  public class ClothesItem
   {
     public string Id;
     public string PId;
     public string Name;
     public string EdIzm;
     public string SrokNoski;
+    public string NormaVidachi;
     public string ParentName;
 
   }

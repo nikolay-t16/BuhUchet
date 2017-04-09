@@ -131,6 +131,7 @@
     <Compile Include="Module\Order\Data\OrderClothesItem.cs" />
     <Compile Include="Module\Order\Data\OrderItem.cs" />
     <Compile Include="Module\Order\Data\OrderItemsItem.cs" />
+    <Compile Include="Module\Order\lib\RuDateAndMoneyConverter.cs" />
     <Compile Include="Module\Order\Model\ModelOrder.cs" />
     <Compile Include="Module\Order\Model\ModelOrderItems.cs" />
     <Compile Include="Module\Naklodnaya\Model\ModelPrihodnayaNakladnayaIt.cs" />

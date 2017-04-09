@@ -52,15 +52,17 @@ namespace BuhUchet
       textBoxName.Text = "";
       textBoxEdIzm.Text = "";
       textBoxSrok.Text = "";
+      textBoxNormaVidachi.Text = "";
       if (itemId == 0)
         return;
-      clothesItem = ModelClothes.I().GetItem(itemId);
+      clothesItem = ModelClothes.I().GetItem(itemId.ToString());
       if (clothesItem != null)
       {
         Console.WriteLine(itemId);
         textBoxName.Text = clothesItem.Name;
         textBoxEdIzm.Text = clothesItem.EdIzm;
         textBoxSrok.Text = clothesItem.SrokNoski;
+        textBoxNormaVidachi.Text = clothesItem.NormaVidachi;
       }
       else
       {
@@ -108,7 +110,8 @@ namespace BuhUchet
             textBoxName.Text,
             rubId,
             textBoxEdIzm.Text,
-            textBoxSrok.Text
+            textBoxSrok.Text,
+            textBoxNormaVidachi.Text
             );
           
           if (t)
@@ -127,7 +130,8 @@ namespace BuhUchet
             textBoxName.Text,
             rubList[comboBoxParent.SelectedIndex].Id,
             textBoxEdIzm.Text,
-            textBoxSrok.Text
+            textBoxSrok.Text,
+            textBoxNormaVidachi.Text
             );
           if (t)
           {

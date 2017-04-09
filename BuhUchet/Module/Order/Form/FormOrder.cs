@@ -147,6 +147,7 @@ namespace BuhUchet
         var id = dataGridViewList.SelectedRows[0].Cells[0].Value.ToString();
         var order = ModelOrder.I().GetItemForOtchet(id);
         var armCardReport = new ArmCardReport(order);
+        armCardReport.CreateArmCard();
                
       }
       else

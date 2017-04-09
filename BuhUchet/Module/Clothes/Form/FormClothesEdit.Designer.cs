@@ -37,6 +37,8 @@
       this.label1 = new System.Windows.Forms.Label();
       this.textBoxSrok = new System.Windows.Forms.TextBox();
       this.label2 = new System.Windows.Forms.Label();
+      this.textBoxNormaVidachi = new System.Windows.Forms.TextBox();
+      this.label3 = new System.Windows.Forms.Label();
       this.SuspendLayout();
       // 
       // labelName
@@ -77,7 +79,7 @@
       // 
       // buttonEdit
       // 
-      this.buttonEdit.Location = new System.Drawing.Point(209, 150);
+      this.buttonEdit.Location = new System.Drawing.Point(209, 176);
       this.buttonEdit.Name = "buttonEdit";
       this.buttonEdit.Size = new System.Drawing.Size(75, 23);
       this.buttonEdit.TabIndex = 4;
@@ -117,11 +119,29 @@
       this.label2.TabIndex = 7;
       this.label2.Text = "Срок носки(г):";
       // 
+      // textBoxNormaVidachi
+      // 
+      this.textBoxNormaVidachi.Location = new System.Drawing.Point(112, 150);
+      this.textBoxNormaVidachi.Name = "textBoxNormaVidachi";
+      this.textBoxNormaVidachi.Size = new System.Drawing.Size(172, 20);
+      this.textBoxNormaVidachi.TabIndex = 9;
+      // 
+      // label3
+      // 
+      this.label3.AutoSize = true;
+      this.label3.Location = new System.Drawing.Point(22, 153);
+      this.label3.Name = "label3";
+      this.label3.Size = new System.Drawing.Size(84, 13);
+      this.label3.TabIndex = 10;
+      this.label3.Text = "Норма выдачи:";
+      // 
       // FormClothesEdit
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(317, 266);
+      this.Controls.Add(this.label3);
+      this.Controls.Add(this.textBoxNormaVidachi);
       this.Controls.Add(this.textBoxSrok);
       this.Controls.Add(this.label2);
       this.Controls.Add(this.textBoxEdIzm);
@@ -150,5 +170,7 @@
     private System.Windows.Forms.Label label1;
     private System.Windows.Forms.TextBox textBoxSrok;
     private System.Windows.Forms.Label label2;
+    private System.Windows.Forms.TextBox textBoxNormaVidachi;
+    private System.Windows.Forms.Label label3;
   }
 }

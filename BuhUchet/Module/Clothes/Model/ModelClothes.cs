@@ -24,9 +24,9 @@ namespace BuhUchet
     public ModelClothes() : base("clothes")
     {
     }
-    protected String[,] MakeSet(String name, String parent, String ed_izm, String srok_noski)
+    protected String[,] MakeSet(String name, String parent, String ed_izm, String srok_noski, string norma_vidachi)
     {
-      String[,] set = new String[4, 2];      
+      String[,] set = new String[5, 2];      
       set[0, 0] = "name";
       set[0, 1] = name;
       set[1, 0] = "p_id";
@@ -34,44 +34,47 @@ namespace BuhUchet
       set[2, 0] = "ed_izm";
       set[2, 1] = ed_izm;
       set[3, 0] = "srok_noski";
-      set[3, 1] = srok_noski; 
+      set[3, 1] = srok_noski;
+      set[4, 0] = "norma_vidachi";
+      set[4, 1] = norma_vidachi;
       return set;
     }
-    public Boolean Insert(String name, String parent, String ed_izm, String srok_noski)
+    public Boolean Insert(String name, String parent, String ed_izm, String srok_noski,String norma_vidachi)
     {
-      return Insert(MakeSet(name, parent, ed_izm, srok_noski));
+      return Insert(MakeSet(name, parent, ed_izm, srok_noski, norma_vidachi));
     }
-    public Boolean Update(String id, String name, String parent, String ed_izm, String srok_noski)
+    public Boolean Update(String id, String name, String parent, String ed_izm, String srok_noski, string norma_vidachi)
     {
-      return Update(MakeSet(name, parent, ed_izm, srok_noski), "id = " +id);
+      return Update(MakeSet(name, parent, ed_izm, srok_noski, norma_vidachi), "id = " + id);
     }
   
     public List<ClothesItem> Search(String search,String p_id)
     {
       var rez = new List<ClothesItem>();
-      var sql = " order by name ASC";
+      var sql = " order by c.name ASC";
       if (p_id != "0")
       {
-        sql = "p_id=" + p_id + sql;
+        sql = "c.p_id= " + p_id + sql;
       }
       else {
-        sql = "p_id>=0" + sql;
+        sql = "c.p_id=0 " + sql;
       }
       if (search != "")
       {
-        sql = "name like '%" + search + "%' and" + sql;
+        sql = "c.name like '%" + search + "%' and " + sql;
       }
-      sql = "SELECT c.*,( select name from clothes where id = c.p_id ) as parent_name from clothes as c where " + sql;
-      var sqlRez = QueryResult(sql);
+      var sqlRez = GetItemsForOrder(sql);
       if (sqlRez != null) {
         while (sqlRez.Read()) {
+          Console.WriteLine(sqlRez["parent_name"].ToString()+ " sqlRez[parent_name].ToString(),");
           rez.Add(new ClothesItem() {
             Id = sqlRez["id"].ToString(),
             PId = sqlRez["p_id"].ToString(), 
             Name = sqlRez["name"].ToString(),
             EdIzm = sqlRez["ed_izm"].ToString(),
             SrokNoski = sqlRez["srok_noski"].ToString(),
-            ParentName = sqlRez["parent_name"].ToString()
+            ParentName = sqlRez["parent_name"].ToString(),
+            NormaVidachi = sqlRez["norma_vidachi"].ToString(),
           });
         }
       }
@@ -180,7 +183,7 @@ namespace BuhUchet
       return rubs;
     }
 
-    public ClothesItem GetItem(int id) {
+    public ClothesItem GetItem(string id) {
       OleDbDataReader item = ModelClothes.I().GetById(id.ToString());
       if (item != null)
       {
@@ -192,12 +195,40 @@ namespace BuhUchet
           PId = item["p_id"].ToString(),
           Name = item["name"].ToString(),
           EdIzm = item["ed_izm"].ToString(),
-          SrokNoski = item["srok_noski"].ToString()
+          SrokNoski = item["srok_noski"].ToString(),
+          NormaVidachi = item["norma_vidachi"].ToString()
         };
         return rez;
       }
       return null;
     }
-  
+    public OleDbDataReader GetItemsForOrder( string sql){
+      sql = "SELECT c.id,c.p_id,c.name,pc.name as parent_name,pc.ed_izm,pc.srok_noski,pc.norma_vidachi" +
+        " from clothes as c left join clothes as pc on pc.id = c.p_id   where " + sql;
+     return QueryResult(sql);
+    }
+    public ClothesItem GetItemForOrder(string id) {
+      var sql = "c.id = " + id;
+      var sqlRez = GetItemsForOrder(sql);
+      if (sqlRez != null)
+      {
+        sqlRez.Read();
+          Console.WriteLine(sqlRez["parent_name"].ToString() + " sqlRez[parent_name].ToString(),");
+          var rez = new ClothesItem()
+          {
+            Id = sqlRez["id"].ToString(),
+            PId = sqlRez["p_id"].ToString(),
+            Name = sqlRez["name"].ToString(),
+            EdIzm = sqlRez["ed_izm"].ToString(),
+            SrokNoski = sqlRez["srok_noski"].ToString(),
+            ParentName = sqlRez["parent_name"].ToString(),
+            NormaVidachi = sqlRez["norma_vidachi"].ToString(),
+          };
+          return rez;  
+        
+      }
+      return null;
+        
+    }
   }
 }

@@ -109,8 +109,8 @@ namespace BuhUchet
             IdChild = data["id_child"].ToString(),
             Date = data["date"].ToString()
           };
-          var child = ModelChildren.I().GetItem(item.IdChild);
-          item.Fio = child.Fio;
+          item.Child = ModelChildren.I().GetItem(item.IdChild);
+          item.Fio = item.Child.Fio;
           item.Items = ModelOrderItems.I().GetClothesList(id).Values.ToList();
           return item;
         }

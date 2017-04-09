@@ -49,8 +49,12 @@ namespace BuhUchet
     public Dictionary<string, OrderClothesItem> GetClothesList(string idOrder) {
       var res = new Dictionary<string, OrderClothesItem>();
       var items = QueryResult(
-        "select tn.id, tn.price, tn.name, tn.id_clothes," +
-      "tn.count, ( select sum(oi.count) from order_items as oi  where oi.id_clothes=tn.id_clothes and oi.id_order<>" + idOrder + " ) as `count_use`" +
+        "select tn.id, tn.price, tn.name, tn.id_clothes,tn.count, "+
+        "( "+
+          "select sum(oi.count) from order_items as oi  "+
+            "where oi.id_clothes=tn.id_clothes and oi.id_order<>" + idOrder + 
+         " )"+
+         " as `count_use`" +
       "from `tovar_nakladnaya_ed` as tn");
      while (items.Read())
       {
@@ -65,7 +69,8 @@ namespace BuhUchet
             Id = items["id_clothes"].ToString(),
             Name = items["name"].ToString(),
             Price = items["price"].ToString(),
-            Count = count.ToString()
+            Count = count.ToString(),
+            Clothes = ModelClothes.I().GetItemForOrder(items["id_clothes"].ToString())
           }
           );
       }
